@@ -11,7 +11,7 @@ import java.util.Set;
 public class StudentDao extends Dao implements IStudentDao {
 
     @Override
-    public int addStudent(Student student) throws Exception {
+    public int add(Student student) throws Exception {
         Connection connection = null;
         String request = "INSERT INTO student (name, firstname, student_number) VALUES (?, ?, ?)";
         PreparedStatement ps = null;
@@ -37,7 +37,7 @@ public class StudentDao extends Dao implements IStudentDao {
     }
 
     @Override
-    public Set<Student> getAllStudents() throws Exception {
+    public Set<Student> get() throws Exception {
         Connection connection = null;
         String request = "SELECT * FROM students";
         PreparedStatement ps = null;
@@ -66,7 +66,7 @@ public class StudentDao extends Dao implements IStudentDao {
     }
 
     @Override
-    public Student getStudentById(int id) throws Exception {
+    public Student getById(int id) throws Exception {
         Connection connection = null;
         String request = "SELECT * FROM students WHERE id=?";
         PreparedStatement ps = null;
@@ -93,7 +93,7 @@ public class StudentDao extends Dao implements IStudentDao {
     }
 
     @Override
-    public void updateStudent(Student student) throws Exception {
+    public void update(Student student) throws Exception {
         Connection connection = null;
         String request = "UPDATE students SET name=?, firstname=?, student_number=? WHERE id=?";
         PreparedStatement ps = null;
@@ -114,7 +114,7 @@ public class StudentDao extends Dao implements IStudentDao {
     }
 
     @Override
-    public void deleteStudent(Student student) throws Exception {
+    public void delete(Student student) throws Exception {
         Connection connection = null;
         String request = "DELETE FROM student WHERE id=?";
         PreparedStatement ps = null;
@@ -131,7 +131,7 @@ public class StudentDao extends Dao implements IStudentDao {
     }
 
     @Override
-    public void deleteStudentById(int id) throws Exception {
+    public void deleteById(int id) throws Exception {
         Connection connection = null;
         String request = "DELETE FROM student WHERE id=?";
         PreparedStatement ps = null;

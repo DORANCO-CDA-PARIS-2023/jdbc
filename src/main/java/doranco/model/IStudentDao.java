@@ -4,22 +4,22 @@ import doranco.entity.Student;
 
 import java.util.Set;
 
-public interface IStudentDao {
+public interface IStudentDao extends ICrud<Student> {
 
     // CREATE
-    int addStudent(Student student) throws Exception;
+    int add(Student student) throws Exception;
 
     // READ
-    Set<Student> getAllStudents() throws Exception;
-    Student getStudentById(int id) throws Exception;
+    Set<Student> get() throws Exception;
+    Student getById(int id) throws Exception;
 
 
     // UPDATE
-    void updateStudent(Student student) throws Exception;
+    void update(Student student) throws Exception;
 
     // DELETE
-    void deleteStudent(Student student) throws Exception;
-    void deleteStudentById(int id) throws Exception;
+    void delete(Student student) throws Exception;
+    void deleteById(int id) throws Exception;
 
 
 }
