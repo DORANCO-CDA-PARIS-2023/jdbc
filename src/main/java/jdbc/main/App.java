@@ -1,4 +1,4 @@
-package doranco;
+package jdbc.main;
 
 import java.sql.*;
 import java.util.InputMismatchException;
