@@ -1,6 +1,6 @@
 package doranco.model;
 
-import doranco.entity.Book;
+import doranco.entity.BookGenre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +8,12 @@ import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BookDao extends Dao implements IBookDao {
+public class BookGenreDao extends Dao implements IBookGenreDao {
 
     @Override
-    public int add(Book entity) throws Exception {
+    public int add(BookGenre entity) throws Exception {
         Connection connection = null;
-        String request = "INSERT INTO book (title, year_publish, id_author) VALUES (?, ?, ?)";
+        String request = "INSERT INTO book_genre (id_book, id_genre) VALUES (?, ?)";
         PreparedStatement ps = null;
         ResultSet rs = null;
         int id = 0;
@@ -21,9 +21,8 @@ public class BookDao extends Dao implements IBookDao {
         try {
             connection = DorancoMeriseDB.getINSTANCE().getConnection();
             ps = connection.prepareStatement(request, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, entity.getTitle());
-            ps.setInt(2, entity.getYearPublish());
-            ps.setInt(3, entity.getIdAuthor());
+            ps.setInt(1, entity.getIdBook());
+            ps.setInt(2, entity.getIdGenre());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
             if (rs != null && rs.next()) {
@@ -37,12 +36,12 @@ public class BookDao extends Dao implements IBookDao {
     }
 
     @Override
-    public Set<Book> get() throws Exception {
+    public Set<BookGenre> get() throws Exception {
         Connection connection = null;
-        String request = "SELECT * FROM book";
+        String request = "SELECT * FROM book_genre";
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Set<Book> books = new HashSet<>();
+        Set<BookGenre> bookGenres = new HashSet<>();
 
         try {
             connection = DorancoMeriseDB.getINSTANCE().getConnection();
@@ -50,34 +49,32 @@ public class BookDao extends Dao implements IBookDao {
             rs = ps.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
-                    Book book = new Book();
-                    book.setId(rs.getInt("id"));
-                    book.setTitle(rs.getString("title"));
-                    book.setYearPublish(rs.getInt("year_publish"));
-                    book.setIdAuthor(rs.getInt("id_author"));
-                    books.add(book);
+                    BookGenre bookGenre = new BookGenre();
+                    bookGenre.setIdBook(rs.getInt("id_book"));
+                    bookGenre.setIdGenre(rs.getInt("id_genre"));
+                    bookGenres.add(bookGenre);
                 }
             }
         } finally {
             closeDataFlow(connection, ps, rs);
         }
 
-        return books;
+        return bookGenres;
     }
 
     @Override
-    public void update(Book entity) throws Exception {
+    public void update(BookGenre entity) throws Exception {
         Connection connection = null;
-        String request = "UPDATE book SET title=?, year_publish=?, id_author=? WHERE id=?";
+        String request = "UPDATE book_genre SET id_book=?, id_genre=? WHERE id_book=? AND id_genre=?";
         PreparedStatement ps = null;
 
         try {
             connection = DorancoMeriseDB.getINSTANCE().getConnection();
             ps = connection.prepareStatement(request);
-            ps.setString(1, entity.getTitle());
-            ps.setInt(2, entity.getYearPublish());
-            ps.setInt(3, entity.getIdAuthor());
-            ps.setInt(4, entity.getId());
+            ps.setInt(1, entity.getIdBook());
+            ps.setInt(2, entity.getIdGenre());
+            ps.setInt(3, entity.getIdBook());
+            ps.setInt(4, entity.getIdGenre());
             ps.executeUpdate();
 
         } finally {
@@ -86,15 +83,16 @@ public class BookDao extends Dao implements IBookDao {
     }
 
     @Override
-    public void delete(Book entity) throws Exception {
+    public void delete(BookGenre entity) throws Exception {
         Connection connection = null;
-        String request = "DELETE FROM book WHERE id=?";
+        String request = "DELETE FROM book_genre WHERE id_book=? AND id_genre=?";
         PreparedStatement ps = null;
 
         try {
             connection = DorancoMeriseDB.getINSTANCE().getConnection();
             ps = connection.prepareStatement(request);
-            ps.setInt(1, entity.getId());
+            ps.setInt(1, entity.getIdBook());
+            ps.setInt(1, entity.getIdGenre());
             ps.executeUpdate();
         } finally {
             closeDataFlow(connection, ps);

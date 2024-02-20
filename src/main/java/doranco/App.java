@@ -11,13 +11,15 @@ public class App {
         do {
             ActionType actionType = getActionType(scanner);
             DataType dataType = getDataType(scanner);
+            ActionData actionData = new ActionData(actionType, dataType);
+            try {
+                actionData.execute(scanner);
+            } catch (Exception e) {
+                System.out.println("Erreur lors de l'execution de l'action souhaité.");
+            }
         } while (getContinue(scanner));
 
         scanner.close();
-    }
-
-    private static void treatActionData() {
-        // TODO
     }
 
     private static boolean getContinue(Scanner sc) {
@@ -54,7 +56,8 @@ public class App {
         DataType dataType = null;
 
         do {
-            System.out.println("Entrez le type de donnée que vous souhaitez manipuler (AUTHOR|BOOK|BOOK_GENRE|BORROW|GENRE|STUDENT):");
+            System.out.println("Entrez le type de donnée que vous souhaitez manipuler " +
+                    "(AUTHOR|BOOK|BOOK_GENRE|BORROW|GENRE|STUDENT):");
             try {
                 String input = sc.nextLine();
                 dataType = DataType.valueOf(input.toUpperCase());
