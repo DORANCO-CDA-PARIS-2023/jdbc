@@ -8,6 +8,8 @@ public abstract class Dao {
 
     protected void closeDataFlow(Object... objects) throws Exception {
         for (Object object : objects) {
+            if (object == null) continue;
+
             if (object instanceof Connection) {
                 ((Connection) object).close();
             } else if (object instanceof PreparedStatement) {
