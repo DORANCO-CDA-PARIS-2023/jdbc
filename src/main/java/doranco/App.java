@@ -1,15 +1,21 @@
 package doranco;
 
-import java.sql.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import doranco.dao.BookDaoImpl;
+import doranco.entity.Book;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import java.sql.SQLException;
+import java.util.List;
+
+public class App
 {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws SQLException {
+        BookDaoImpl bookDao = new BookDaoImpl();
+        List<Book> books = bookDao.findAll();
+
+        for (Book book: books)
+        {
+            System.out.println(book);
+        }
+
     }
 }
