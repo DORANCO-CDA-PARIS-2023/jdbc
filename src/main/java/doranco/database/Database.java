@@ -12,7 +12,7 @@ public class Database {
 
 
     private Database() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/doranco_merise", "root", "root");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/doranco_merise", "root", "root");
     }
 
     public Connection getConnection() {
