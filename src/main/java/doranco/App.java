@@ -1,9 +1,9 @@
 package doranco;
 
-import doranco.dao.BookDaoImpl;
-import doranco.entity.Book;
+import doranco.service.CommandLine;
 
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Scanner;
 
@@ -77,5 +77,17 @@ public class App {
         Book updatedBook = new Book(idToUpdate, newTitle, newYear, newAuthorId);
         bookDao.update(updatedBook);
         System.out.println("Mise a jour faites");
+=======
+
+public class App
+{
+    public static void main( String[] args ) {
+        try {
+            CommandLine commandLine = new CommandLine();
+            commandLine.start();
+        } catch (SQLException e) {
+            System.err.println("Error database connection");
+        }
+>>>>>>> 87818ab7e4b18554c8bb5c22dc7ad0c9f1ceec97
     }
 }
