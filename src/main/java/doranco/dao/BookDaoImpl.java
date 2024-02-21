@@ -86,6 +86,11 @@ public class BookDaoImpl implements IBookDao {
     }
 
     @Override
+    public void update(String title, int id) throws SQLException {
+
+    }
+
+    @Override
     public List<Book> searchByTitle(String title) throws SQLException {
         String query = "SELECT * FROM book WHERE title LIKE ?";
         PreparedStatement statement = connection.prepareStatement(query);

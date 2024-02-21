@@ -25,4 +25,9 @@ public class AuthorDaoImpl implements IAuthorDao{
     public void delete(int id) {
 
     }
+
+    @Override
+    public void update(String title, int id) throws SQLException {
+
+    }
 }
