@@ -57,4 +57,9 @@ public class Book {
                 ", authorId=" + idAuthor +
                 '}';
     }
+
+    public String getAuthorId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAuthorId'");
+    }
 }

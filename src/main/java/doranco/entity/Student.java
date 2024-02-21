@@ -7,6 +7,15 @@ public class Student {
     private String studentNumber;
 
 
+    public Student() {}
+
+    public Student(int id, String name, String firstname, String studentNumber) {
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.studentNumber = studentNumber;
+    }
+
     public int getId() {
         return id;
     }
@@ -37,5 +46,15 @@ public class Student {
 
     public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + name + '\'' +
+                ", year=" + firstname +
+                ", authorId=" + studentNumber +
+                '}';
     }
 }

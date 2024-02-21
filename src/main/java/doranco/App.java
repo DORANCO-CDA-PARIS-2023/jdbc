@@ -1,21 +1,17 @@
 package doranco;
 
-import java.sql.*;
-import java.util.List;
+import doranco.service.CommandLine;
 
-import doranco.dao.BookDAO;
-import doranco.entity.Book;
+import java.sql.SQLException;
 
-public class App 
+public class App
 {
     public static void main( String[] args ) throws Exception {
-        BookDAO bookDao = new BookDAO();
-        List<Book> books = bookDao.findAll();
-
-        for (Book book: books)
-        {
-            System.out.println(book);
+        try {
+            CommandLine commandLine = new CommandLine();
+            commandLine.start();
+        } catch (SQLException e) {
+            System.err.println("Error database connection");
         }
-
     }
 }

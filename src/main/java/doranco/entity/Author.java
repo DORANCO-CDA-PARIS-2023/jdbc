@@ -9,6 +9,15 @@ public class Author {
     private Date birthday;
 
 
+    public Author() {}
+
+    public Author(int id, String name, String firstname, Date birthday) {
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.birthday = birthday;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -39,5 +48,15 @@ public class Author {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + name + '\'' +
+                ", year=" + firstname +
+                ", authorId=" + birthday +
+                '}';
     }
 }

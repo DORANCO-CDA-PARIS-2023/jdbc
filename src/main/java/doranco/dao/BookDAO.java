@@ -1,6 +1,5 @@
 package doranco.dao;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,16 +67,36 @@ public class BookDAO implements IBookDAO{
     }
 
     @Override
-    public void updateBook(Book book) throws SQLException{
-        String query = "UPDATE book SET title = ?, year_publish = ?, id_author = ? WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+    public void updateBook(Book book){
+
+Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = DataSourceSingleton.getInstance().getConnection();
+            String query = "UPDATE book SET title = ?, year_publish = ?, id_author = ? WHERE id = ?";
+            ps = connection.prepareStatement(query);
             ps.setString(1, book.getTitle());
             ps.setInt(2, book.getYearPublish());
-            ps.setInt(3, book.getIdAuthor());
+            ps.setInt(3, book.getIdAuthor());            
             ps.setInt(4, book.getId());
 
             ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+                if (ps != null && !ps.isClosed()) {
+                    ps.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 }
