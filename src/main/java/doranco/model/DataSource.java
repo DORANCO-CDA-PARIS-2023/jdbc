@@ -2,16 +2,16 @@ package doranco.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DataSource {
 
 	private static DataSource instance;
 	
 	private DataSource() {
-		
 	}
 	
-	public static synchronized DataSource getInstance() {
+	public static synchronized DataSource getInstance() throws SQLException{
 		if (instance == null) {
 			instance = new DataSource();
 		}

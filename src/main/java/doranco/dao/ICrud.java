@@ -3,13 +3,15 @@ package doranco.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import doranco.exception.NotFoundEntityException;
+
 public interface ICrud <T> {
 	
-	public T find(int id);
+	public T find(int id) throws SQLException, NotFoundEntityException;
 	
 	public List<T> findAll() throws SQLException;
 	
-	public void create(T entity);
+	public void create(T entity)throws SQLException, NotFoundEntityException;
 	
-	public void delete(int id);
+	public void delete(int id)throws SQLException;
 }
