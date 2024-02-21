@@ -25,6 +25,7 @@ public class LivreDAOService {
     	case 1:
     		System.out.println("Fermeture du programme ...");
         	searchscan.close();
+        	livreDAO.closeConnection();
     		break;
     	case 2:
         	try {

@@ -7,4 +7,5 @@ public interface ICrud {
 	void getById() throws Exception;
 	void add() throws SQLException, Exception;
 	void remove() throws Exception;
+	void closeConnection() throws SQLException;
 }

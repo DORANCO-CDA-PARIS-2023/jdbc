@@ -19,6 +19,9 @@ public class AuteurDAOImpl implements IAuteurDAO {
         statement = connection.createStatement();
     }
     
+	public void closeConnection() throws SQLException {
+		connection.close();
+	}
 
 	@Override
 	public void findAll() throws Exception {
