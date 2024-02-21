@@ -22,6 +22,16 @@ public class BookDaoImpl implements IBookDao {
 
     @Override
     public Book find(int id) {
+    	String query = "SELECT * FROM book WHERE id = " + id;
+    	try {
+			ResultSet result = statement.executeQuery(query);
+			if (result.next()) {
+				return new Book(result.getInt("id"), result.getString("title"), result.getInt("year_publish"),
+						result.getInt("id_author"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+    	}
         return null;
     }
 

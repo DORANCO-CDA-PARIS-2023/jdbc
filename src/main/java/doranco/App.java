@@ -35,6 +35,9 @@ public class App
         {
             System.out.println(book);
         }
+        
+        Book book = bookDao.find(2);
+        System.out.println(book);
 
     }
 }
