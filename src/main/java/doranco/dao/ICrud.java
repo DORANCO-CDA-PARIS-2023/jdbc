@@ -1,7 +1,5 @@
 package doranco.dao;
 
-import doranco.entity.Book;
-
 import java.sql.SQLException;
 import java.util.List;
 

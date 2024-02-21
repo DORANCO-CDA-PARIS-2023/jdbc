@@ -22,6 +22,16 @@ public class BookDaoImpl implements IBookDao {
 
     @Override
     public Book find(int id) {
+        String query = "SELECT * FROM book WHERE id = " + id;
+    	try {
+			ResultSet result = statement.executeQuery(query);
+			if (result.next()) {
+				return new Book(result.getInt("id"), result.getString("title"), result.getInt("year_publish"),
+						result.getInt("id_author"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+    	}
         return null;
     }
 
@@ -45,11 +55,23 @@ public class BookDaoImpl implements IBookDao {
 
     @Override
     public void create(Book book) {
-
+        String query = "INSERT INTO book (title, year_publish, id_author) VALUES ('" + book.getTitle() + "', " + book.getYear() + ", " + book.getAuthorId() + ")";
+        try {
+            statement.executeUpdate(query);
+            System.out.println("Book created");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(int id) {
-
+        String query = "DELETE FROM book WHERE id = " + id;
+		try {
+			statement.executeUpdate(query);
+			System.out.println("Book deleted");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
 }
