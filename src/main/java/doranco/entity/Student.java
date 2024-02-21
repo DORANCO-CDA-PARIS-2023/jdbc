@@ -1,4 +1,4 @@
-package doranco;
+package doranco.entity;
 
 public class Student {
 
