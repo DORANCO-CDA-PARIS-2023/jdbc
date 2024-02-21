@@ -1,0 +1,22 @@
+package doranco.entity;
+
+public class BookGenre {
+    private int idBook;
+    private int idGenre;
+
+    public int getIdBook() {
+        return idBook;
+    }
+
+    public void setIdBook(int idBook) {
+        this.idBook = idBook;
+    }
+
+    public int getIdGenre() {
+        return idGenre;
+    }
+
+    public void setIdGenre(int idGenre) {
+        this.idGenre = idGenre;
+    }
+}
