@@ -12,18 +12,28 @@ import jdbc.connection.DataSource;
 import jdbc.entity.Livre;
 
 public class LivreDAOImpl implements ILivreDAO {
+	
+    private final Connection connection;
+    private final Statement statement;
+
+    public LivreDAOImpl() throws Exception {
+        connection = DataSource.getInstance().getConnection();
+        statement = connection.createStatement();
+    }
+    
+	
+	public Connection getConnection() {
+		return connection;
+	}
 
 	@Override
 	public void findAll() throws Exception {
 		List<Livre> livres = new ArrayList();
-		Connection connection = null;
 		ResultSet rs= null;
 		
 		try {
 		String requete = "SELECT * FROM book";
-		connection = DataSource.getConnection();
-		PreparedStatement ps = connection.prepareStatement(requete);
-		rs = ps.executeQuery();
+		rs = statement.executeQuery(requete);
 		while (rs != null && rs.next()) {
 			Livre livre = null;
 			livre = new Livre();
@@ -35,7 +45,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			}	
 		} finally {
 			if(connection != null && !connection.isClosed()) {
-				connection.close();
+//				connection.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
@@ -49,7 +59,6 @@ public class LivreDAOImpl implements ILivreDAO {
 	@Override
 	public void getById() throws Exception {
 		Livre livre = null;
-		Connection connection = null;
 		ResultSet rs= null;
 		
 		System.out.print("Entrer un ID à rechercher : ");
@@ -62,7 +71,6 @@ public class LivreDAOImpl implements ILivreDAO {
 		
 		try {
 		String requete = "SELECT * FROM book WHERE id =?";
-		connection = DataSource.getConnection();
 		PreparedStatement ps = connection.prepareStatement(requete);
 		ps.setInt(1, id);		
 		rs = ps.executeQuery();
@@ -75,7 +83,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			}	
 		} finally {
 			if(connection != null && !connection.isClosed()) {
-				connection.close();
+//				connection.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
@@ -94,7 +102,6 @@ public class LivreDAOImpl implements ILivreDAO {
 	    System.out.print("Date de publication (minimum : 1901) : ");
 	    int annee = scanner.nextInt();
 		String requete = "INSERT INTO book (title, year_publish) " + "VALUES(?, ?)";
-		Connection connection = DataSource.getConnection();
 		PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, titre);
 		ps.setInt(2, annee);		
@@ -115,9 +122,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			throw new IllegalArgumentException("L'id doit être > 0");
 		}
 		
-		Connection connection = null;
 		String requete = "DELETE FROM book WHERE id =?";
-		connection = DataSource.getConnection();
 		PreparedStatement ps = connection.prepareStatement(requete);
 		ps.setInt(1, id);
 		ps.executeUpdate();
@@ -127,7 +132,6 @@ public class LivreDAOImpl implements ILivreDAO {
 	@Override
 	public void findByTitle() throws Exception {
 		List<Livre> livres = new ArrayList();
-		Connection connection = null;
 		ResultSet rs= null;
 		
 		System.out.print("Entrer un titre partiel ou complet : ");
@@ -136,7 +140,6 @@ public class LivreDAOImpl implements ILivreDAO {
 //		sc.close();
 		try {
 		String requete = "SELECT * FROM book WHERE title LIKE ?";
-		connection = DataSource.getConnection();
 		PreparedStatement ps = connection.prepareStatement(requete);
 		ps.setString(1, "%" + recherche + "%");		
 		rs = ps.executeQuery();
@@ -150,7 +153,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			}	
 		} finally {
 			if(connection != null && !connection.isClosed()) {
-				connection.close();
+//				connection.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
