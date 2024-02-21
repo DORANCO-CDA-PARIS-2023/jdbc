@@ -8,12 +8,18 @@ public class Book {
 
     public Book() {}
 
-    public Book(int id, String title, int year, int authorId) {
-        this.id = id;
+    public Book(String title, int year, int authorId) {
         this.title = title;
         this.year = year;
         this.authorId = authorId;
     }
+    
+	public Book(int id, String title, int year, int authorId) {
+		this.id = id;
+		this.title = title;
+		this.year = year;
+		this.authorId = authorId;
+	}
 
     public int getId() {
         return id;
