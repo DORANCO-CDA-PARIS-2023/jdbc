@@ -2,6 +2,7 @@ package doranco;
 
 import doranco.entity.Author;
 import doranco.entity.Book;
+import doranco.entity.Borrow;
 import doranco.entity.Genre;
 import doranco.model.*;
 
@@ -75,13 +76,16 @@ public class ActionData {
         return result;
     }
 
-    private Date getDate(Scanner sc, String prompt, SimpleDateFormat format) {
+    private Date getDate(Scanner sc, String prompt, SimpleDateFormat format, boolean canBeNull) {
         Date date = null;
 
         do {
             System.out.println(prompt);
             try {
                 String input = sc.nextLine();
+                if (input.equalsIgnoreCase("null") && canBeNull) {
+                    return null;
+                }
                 date = format.parse(input);
             } catch (Exception ignored) { }
         } while (date == null);
@@ -204,7 +208,7 @@ public class ActionData {
                         author.setName(getString(sc, "Entrez le nom du nouvel auteur:", false));
                         author.setFirstname(getString(sc, "Entrez le prénom du nouvel auteur", false));
                         author.setBirthday(getDate(sc, "Entrez la date de naissance de l'auteur (dd/MM/yyyy):",
-                                new SimpleDateFormat("dd/MM/yyyy")));
+                                new SimpleDateFormat("dd/MM/yyyy"), false));
 
                         try {
                             int createdId = authorDao.add(author);
@@ -228,7 +232,7 @@ public class ActionData {
                         author.setName(getString(sc, "Entrez le nouveau nom de l'auteur:", false));
                         author.setFirstname(getString(sc, "Entrez le nouveau prénom de l'auteur", false));
                         author.setBirthday(getDate(sc, "Entrez la nouvelle date de naissance de l'auteur",
-                                new SimpleDateFormat("dd/MM/yyyy")));
+                                new SimpleDateFormat("dd/MM/yyyy"), false));
 
                         try {
                             authorDao.update(author);
@@ -252,6 +256,71 @@ public class ActionData {
             }
             case BORROW -> {
                 IBorrowDao borrowDao = new BorrowDao();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                switch (actionType) {
+                    case CREATE -> {
+                        Borrow borrow = new Borrow();
+                        borrow.setDateBorrow(getDate(sc, "Entrez la date du nouvel emprunt (dd/MM/yyyy):",
+                                dateFormat, false));
+                        borrow.setDateBackSchedulde(getDate(sc,
+                                "Entrez la date prévu de retour du nouvel emprunt (dd/MM/yyyy):",
+                                dateFormat, false));
+                        borrow.setDateBack(getDate(sc, "Entrez la date de retour du nouvel emprunt (dd/MM/yyyy|NULL):",
+                                dateFormat, true));
+                        borrow.setIdBook(getInt(sc, "Entrez l'id du livre emprunté du nouvel emprunt:",
+                                1, Integer.MAX_VALUE));
+                        borrow.setIdStudent(getInt(sc, "Entrez l'id de l'étudiant qui emprunte du nouvel emprunt:",
+                                1, Integer.MAX_VALUE));
+
+                        try {
+                            int createdId = borrowDao.add(borrow);
+                            System.out.println(dataType.name() + " crée avec succès (id: " + createdId + ").");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case READ -> {
+                        try {
+                            Set<Borrow> borrows = borrowDao.get();
+                            borrows.stream().map(Borrow::toString).forEach(System.out::println);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case UPDATE -> {
+                        Borrow borrow = new Borrow();
+                        borrow.setId(getInt(sc, "Entrez l'id de l'emprunt à modifier:", 1, Integer.MAX_VALUE));
+                        borrow.setDateBorrow(getDate(sc, "Entrez la nouvelle date d'emprunt de l'emprunt (dd/MM/yyyy):",
+                                dateFormat, false));
+                        borrow.setDateBackSchedulde(getDate(sc, "Entrez la date de retour prévu de l'emprunt (dd/MM/yyyy):",
+                                dateFormat, false));
+                        borrow.setDateBack(getDate(sc, "Entrez la date de retour de l'emprunt (dd/MM/yyyy|NULL):",
+                                dateFormat, true));
+                        borrow.setIdBook(getInt(sc, "Entrez l'id du livre emprunté de l'emprunt:", 1,
+                                Integer.MAX_VALUE));
+                        borrow.setIdStudent(getInt(sc, "Entrez l'id de l'étudiant de l'emprunt:", 1,
+                                Integer.MAX_VALUE));
+
+                        try {
+                            borrowDao.update(borrow);
+                            System.out.println(dataType.name() + " mis à jour avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case DELETE -> {
+                        Borrow borrow = new Borrow();
+                        borrow.setId(getInt(sc, "Entrez l'id de l'emprunt à supprimer:", 1,
+                                Integer.MAX_VALUE));
+
+                        try {
+                            borrowDao.delete(borrow);
+                            System.out.println(dataType.name() + " supprimé avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
             }
             case STUDENT -> {
                 IStudentDao studentDao = new StudentDao();
