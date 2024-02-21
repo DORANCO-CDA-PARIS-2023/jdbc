@@ -11,7 +11,8 @@ public interface ICrud <T> {
 
     public List<T> findAll() throws SQLException;
 
-    public void create(T entity);
+    public void create(T entity) throws SQLException;
 
-    public void delete(int id);
+    public void delete(int id) throws SQLException;
+    public void update(String title,int id) throws SQLException;
 }
