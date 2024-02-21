@@ -55,7 +55,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		System.out.print("Entrer un ID à rechercher : ");
 		Scanner sc = new Scanner(System.in);
 		int id = sc.nextInt();
-		sc.close();
+//		sc.close();
 		if (id <= 0) {
 			throw new IllegalArgumentException("L'id doit être > 0");
 		}
@@ -90,7 +90,8 @@ public class LivreDAOImpl implements ILivreDAO {
 	    Scanner scanner = new Scanner(System.in);
 	    System.out.print("Titre : ");
 	    String titre = scanner.nextLine();
-	    System.out.print("Date de publication : ");
+	    //Attention : dates entre 1901 et 2055
+	    System.out.print("Date de publication (minimum : 1901) : ");
 	    int annee = scanner.nextInt();
 		String requete = "INSERT INTO book (title, year_publish) " + "VALUES(?, ?)";
 		Connection connection = DataSource.getConnection();
@@ -98,7 +99,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		ps.setString(1, titre);
 		ps.setInt(2, annee);		
 		ps.executeUpdate();
-		scanner.close();
+//		scanner.close();
 	  }
 	
 
@@ -108,7 +109,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		System.out.println("Entrer un ID à supprimer : ");
 		Scanner sc = new Scanner(System.in);
 		int id = sc.nextInt();
-		sc.close();
+//		sc.close();
 		
 		if (id <= 0) {
 			throw new IllegalArgumentException("L'id doit être > 0");
@@ -124,9 +125,46 @@ public class LivreDAOImpl implements ILivreDAO {
 	}
 
 	@Override
-	public Livre findByTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+	public void findByTitle() throws Exception {
+		List<Livre> livres = new ArrayList();
+		Connection connection = null;
+		ResultSet rs= null;
+		
+		System.out.print("Entrer un titre partiel ou complet : ");
+		Scanner sc = new Scanner(System.in);
+		String recherche = sc.nextLine();
+//		sc.close();
+		try {
+		String requete = "SELECT * FROM book WHERE title LIKE ?";
+		connection = DataSource.getConnection();
+		PreparedStatement ps = connection.prepareStatement(requete);
+		ps.setString(1, "%" + recherche + "%");		
+		rs = ps.executeQuery();
+		while (rs != null && rs.next()) {
+			Livre livre = new Livre();
+			livre.setId(rs.getInt("id"));
+			livre.setTitle(rs.getString("title"));
+			livre.setYear_publish(rs.getInt("year_publish"));
+//			livre.setId_author(rs.getInt("id_author"));
+			livres.add(livre);
+			}	
+		} finally {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+			if (rs != null && !rs.isClosed()) {
+				rs.close();
+			}
+		}
+		if(livres.isEmpty()) {
+			System.out.println("Aucun résultat");
+		}
+		else {
+			for(Livre livre : livres) {
+				System.out.println(livre.toString());
+			}
+		}
+
 	}
 
 

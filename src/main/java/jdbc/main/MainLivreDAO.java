@@ -17,47 +17,55 @@ public class MainLivreDAO
     	ILivreDAO livreDAO = new LivreDAOImpl();
     	int choice = 0;
     	Scanner searchscan = new Scanner(System.in);
-    	while(choice != 5) {
+    	while(choice != 1) {
     	System.out.println("Quelle action souhaitez-vous effectuer ?");
-    	System.out.println("1 - Afficher la liste de tous les livres");
-    	System.out.println("2 - Rechercher un livre par ID");
-    	System.out.println("3 - Ajouter un livre");
-    	System.out.println("4 - Supprimer un livre");
-    	System.out.println("5 - Fermer application");
+    	System.out.println("1 - Fermer application");
+    	System.out.println("2 - Afficher la liste de tous les livres");
+    	System.out.println("3 - Rechercher un livre par ID");
+    	System.out.println("4 - Ajouter un livre");
+    	System.out.println("5 - Supprimer un livre");
+    	System.out.println("6 - Rechercher par titre");
     	System.out.print("Votre choix : ");
     	choice = searchscan.nextInt();
     	switch(choice) {
     	case 1:
+    		System.out.println("Fermeture du programme ...");
+        	searchscan.close();
+    		break;
+    	case 2:
         	try {
     			livreDAO.findAll();
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
     		break;
-    	case 2:
+    	case 3:
         	try {
     			livreDAO.getById();
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
     		break;
-    	case 3:
+    	case 4:
         	try {
     			livreDAO.add();
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
     		break;
-    	case 4:
+    	case 5:
         	try {
     			livreDAO.remove();
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
     		break;
-    	case 5:
-    		System.out.println("Fermeture du programme ...");
-        	searchscan.close();
+    	case 6:
+        	try {
+    			livreDAO.findByTitle();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
     		break;
     	default:
     		System.out.println("Choix invalide");
