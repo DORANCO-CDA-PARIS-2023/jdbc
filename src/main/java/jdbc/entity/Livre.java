@@ -4,7 +4,7 @@ public class Livre {
 	int id;
 	String title;
 	int year_publish;
-	int id_author;
+	Auteur author;
 	
 	
 	
@@ -12,12 +12,12 @@ public class Livre {
 		super();
 	}
 
-	public Livre(int id, String title, int year_publish, int id_author) {
+	public Livre(int id, String title, int year_publish, Auteur author) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.year_publish = year_publish;
-		this.id_author = id_author;
+		this.author = author;
 	}
 
 	public int getId() {
@@ -44,16 +44,16 @@ public class Livre {
 		this.year_publish = year_publish;
 	}
 
-	public int getId_author() {
-		return id_author;
+	public Auteur getAuthor() {
+		return author;
 	}
 
-	public void setId_author(int id_author) {
-		this.id_author = id_author;
+	public void setAuthor(Auteur author) {
+		this.author = author;
 	}
 	
 	public String toString() {
-		return id + ". " + title + " (paru en " + year_publish + ")";
+		return id + ". " + title + " (écrit par " + author.getFirstname() + " " + author.getName() + ", paru en " + year_publish + ")";
 	}
 	
 }

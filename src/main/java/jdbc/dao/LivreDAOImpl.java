@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import jdbc.connection.DataSource;
+import jdbc.entity.Auteur;
 import jdbc.entity.Livre;
 
 public class LivreDAOImpl implements ILivreDAO {
@@ -32,7 +33,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		ResultSet rs= null;
 		
 		try {
-		String requete = "SELECT * FROM book";
+		String requete = "SELECT * FROM book JOIN author ON book.id_author = author.id";
 		rs = statement.executeQuery(requete);
 		while (rs != null && rs.next()) {
 			Livre livre = null;
@@ -41,6 +42,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			livre.setTitle(rs.getString("title"));
 			livre.setYear_publish(rs.getInt("year_publish"));
 //			livre.setId_author(rs.getInt("id_author"));
+			livre.setAuthor(new Auteur(rs.getInt("id"), rs.getString("name"), rs.getString("firstname"), rs.getDate("birthday")));
 			livres.add(livre);
 			}	
 		} finally {
@@ -70,7 +72,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		}
 		
 		try {
-		String requete = "SELECT * FROM book WHERE id =?";
+		String requete = "SELECT * FROM book JOIN author ON book.id_author = author.id WHERE book.id =?";
 		PreparedStatement ps = connection.prepareStatement(requete);
 		ps.setInt(1, id);		
 		rs = ps.executeQuery();
@@ -80,6 +82,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			livre.setTitle(rs.getString("title"));
 			livre.setYear_publish(rs.getInt("year_publish"));
 //			livre.setId_author(rs.getInt("id_author"));
+			livre.setAuthor(new Auteur(rs.getInt("id"), rs.getString("name"), rs.getString("firstname"), rs.getDate("birthday")));
 			}	
 		} finally {
 			if(connection != null && !connection.isClosed()) {
@@ -139,7 +142,7 @@ public class LivreDAOImpl implements ILivreDAO {
 		String recherche = sc.nextLine();
 //		sc.close();
 		try {
-		String requete = "SELECT * FROM book WHERE title LIKE ?";
+		String requete = "SELECT * FROM book  JOIN author ON book.id_author = author.id WHERE title LIKE ?";
 		PreparedStatement ps = connection.prepareStatement(requete);
 		ps.setString(1, "%" + recherche + "%");		
 		rs = ps.executeQuery();
@@ -150,6 +153,7 @@ public class LivreDAOImpl implements ILivreDAO {
 			livre.setYear_publish(rs.getInt("year_publish"));
 //			livre.setId_author(rs.getInt("id_author"));
 			livres.add(livre);
+			livre.setAuthor(new Auteur(rs.getInt("id"), rs.getString("name"), rs.getString("firstname"), rs.getDate("birthday")));
 			}	
 		} finally {
 			if(connection != null && !connection.isClosed()) {
