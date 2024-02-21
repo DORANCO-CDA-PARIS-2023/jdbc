@@ -11,10 +11,10 @@ import java.util.Scanner;
 import jdbc.connection.DataSource;
 import jdbc.entity.Livre;
 
-public class LivreDAO implements ILivreDAO {
+public class LivreDAOImpl implements ILivreDAO {
 
 	@Override
-	public void getLivres() throws Exception {
+	public void findAll() throws Exception {
 		List<Livre> livres = new ArrayList();
 		Connection connection = null;
 		ResultSet rs= null;
@@ -47,15 +47,24 @@ public class LivreDAO implements ILivreDAO {
 	}
 
 	@Override
-	public void getLivre(int id) throws Exception {
+	public void getById() throws Exception {
 		Livre livre = null;
 		Connection connection = null;
 		ResultSet rs= null;
+		
+		System.out.print("Entrer un ID à rechercher : ");
+		Scanner sc = new Scanner(System.in);
+		int id = sc.nextInt();
+		sc.close();
+		if (id <= 0) {
+			throw new IllegalArgumentException("L'id doit être > 0");
+		}
 		
 		try {
 		String requete = "SELECT * FROM book WHERE id =?";
 		connection = DataSource.getConnection();
 		PreparedStatement ps = connection.prepareStatement(requete);
+		ps.setInt(1, id);		
 		rs = ps.executeQuery();
 		while (rs != null && rs.next()) {
 			livre = new Livre();
@@ -77,7 +86,7 @@ public class LivreDAO implements ILivreDAO {
 	}
 
 	@Override
-	public void addLivre() throws Exception {
+	public void add() throws Exception {
 	    Scanner scanner = new Scanner(System.in);
 	    System.out.print("Titre : ");
 	    String titre = scanner.nextLine();
@@ -89,14 +98,22 @@ public class LivreDAO implements ILivreDAO {
 		ps.setString(1, titre);
 		ps.setInt(2, annee);		
 		ps.executeUpdate();
+		scanner.close();
 	  }
 	
 
 	@Override
-	public void removeLivre(int id) throws Exception {
+	public void remove() throws Exception {
+		
+		System.out.println("Entrer un ID à supprimer : ");
+		Scanner sc = new Scanner(System.in);
+		int id = sc.nextInt();
+		sc.close();
+		
 		if (id <= 0) {
 			throw new IllegalArgumentException("L'id doit être > 0");
 		}
+		
 		Connection connection = null;
 		String requete = "DELETE FROM book WHERE id =?";
 		connection = DataSource.getConnection();
@@ -104,6 +121,12 @@ public class LivreDAO implements ILivreDAO {
 		ps.setInt(1, id);
 		ps.executeUpdate();
 		System.out.println("Le livre numéro " + id + " a bien été supprimé.");
+	}
+
+	@Override
+	public Livre findByTitle(String title) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
