@@ -1,4 +1,4 @@
-package doranco;
+package doranco.service;
 
 import doranco.entity.*;
 import doranco.model.*;
