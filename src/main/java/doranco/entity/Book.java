@@ -3,6 +3,7 @@ package doranco.entity;
 public class Book {
     private int id;
     private String title;
+<<<<<<< HEAD
     private int year;
     private int authorId;
 
@@ -21,6 +22,27 @@ public class Book {
         this.authorId = authorId;
     }
 
+=======
+    private int yearPublish;
+    private int idAuthor;
+
+    public Book() {
+    }
+
+    public Book(int id, String title, int yearPublish, int idAuthor) {
+        this.id = id;
+        this.title = title;
+        this.yearPublish = yearPublish;
+        this.idAuthor = idAuthor;
+    }
+    
+    public Book(String title, int yearPublish, int idAuthor) {
+        this.title = title;
+        this.yearPublish = yearPublish;
+        this.idAuthor = idAuthor;
+    }
+    
+>>>>>>> 68461191a51cc6aa355da581e0c64ddb70d18aa3
     public int getId() {
         return id;
     }
@@ -37,6 +59,7 @@ public class Book {
         this.title = title;
     }
 
+<<<<<<< HEAD
     public int getYear() {
         return year;
     }
@@ -64,3 +87,21 @@ public class Book {
                 '}';
     }
 }
+=======
+    public int getYearPublish() {
+        return yearPublish;
+    }
+
+    public void setYearPublish(int yearPublish) {
+        this.yearPublish = yearPublish;
+    }
+
+    public int getIdAuthor() {
+        return idAuthor;
+    }
+
+    public void setIdAuthor(int idAuthor) {
+        this.idAuthor = idAuthor;
+    }
+}
+>>>>>>> 68461191a51cc6aa355da581e0c64ddb70d18aa3
