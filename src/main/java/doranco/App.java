@@ -12,11 +12,7 @@ public class App {
             ActionType actionType = getActionType(scanner);
             DataType dataType = getDataType(scanner);
             ActionData actionData = new ActionData(actionType, dataType);
-            try {
-                actionData.execute(scanner);
-            } catch (Exception e) {
-                System.out.println("Erreur lors de l'execution de l'action souhaité.");
-            }
+            actionData.execute(scanner);
         } while (getContinue(scanner));
 
         scanner.close();
