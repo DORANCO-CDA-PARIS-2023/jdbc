@@ -21,11 +21,6 @@ public class Book {
 		this.authorId = authorId;
 	}
 
-    public Book(String title, int year, int authorId) {
-        this.title = title;
-        this.year = year;
-        this.authorId = authorId;
-    }
 
     public int getId() {
         return id;
