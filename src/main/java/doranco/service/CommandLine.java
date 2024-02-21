@@ -61,7 +61,27 @@ public class CommandLine {
     }
 
     private void searchBookByTitle() {
-        System.out.println("Test 1");
+        System.out.println("Entrez le titre du livre à rechercher :");
+        scanner.nextLine();
+        String title = scanner.nextLine(); // We read the input
+
+        try {
+            // we use the method of bookdao
+            List<Book> foundBooks = bookDao.searchByTitle(title);
+
+            if (foundBooks == null || foundBooks.isEmpty()) {
+                System.out.println("Aucun livre trouvé avec le titre : \"" + title + "\"");
+            } else {
+                System.out.println("Livres trouvés :");
+                for (Book book : foundBooks) {
+                    // we print the books
+                    System.out.println("ID: " + book.getId() + ", Titre: " + book.getTitle()
+                            + ", Année de publication: " + book.getYear() + ", ID Auteur: " + book.getAuthorId());
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error with the search book");
+        }
     }
 
     private void createBook() {
