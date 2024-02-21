@@ -61,4 +61,16 @@ public final class Borrow {
     public void setIdStudent(int idStudent) {
         this.idStudent = idStudent;
     }
+
+    @Override
+    public String toString() {
+        return "Borrow{" +
+                "id=" + id +
+                ", dateBorrow=" + dateBorrow +
+                ", dateBackSchedulde=" + dateBackSchedulde +
+                ", dateBack=" + dateBack +
+                ", idBook=" + idBook +
+                ", idStudent=" + idStudent +
+                '}';
+    }
 }

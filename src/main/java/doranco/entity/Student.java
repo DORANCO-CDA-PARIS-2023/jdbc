@@ -41,4 +41,14 @@ public final class Student {
     public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
+                '}';
+    }
 }

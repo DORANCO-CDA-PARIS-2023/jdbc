@@ -43,4 +43,14 @@ public final class Author {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", birthday=" + birthday +
+                '}';
+    }
 }

@@ -41,4 +41,14 @@ public final class Book {
     public void setIdAuthor(int idAuthor) {
         this.idAuthor = idAuthor;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", yearPublish=" + yearPublish +
+                ", idAuthor=" + idAuthor +
+                '}';
+    }
 }

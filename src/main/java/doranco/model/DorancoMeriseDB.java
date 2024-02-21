@@ -15,7 +15,7 @@ public final class DorancoMeriseDB {
     private String database;
 
     private DorancoMeriseDB() {
-        ResourceBundle rb = ResourceBundle.getBundle("fr.doranco.jdbc.model.db.database_file");
+        ResourceBundle rb = ResourceBundle.getBundle("fr.doranco.jdbc.model.db.merise.database_file");
         this.user = rb.getString("user");
         this.password = rb.getString("password");
         this.hostname = rb.getString("hostname");

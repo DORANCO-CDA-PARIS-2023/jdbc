@@ -23,4 +23,12 @@ public final class BookGenre {
     public void setIdGenre(int idGenre) {
         this.idGenre = idGenre;
     }
+
+    @Override
+    public String toString() {
+        return "BookGenre{" +
+                "idBook=" + idBook +
+                ", idGenre=" + idGenre +
+                '}';
+    }
 }
