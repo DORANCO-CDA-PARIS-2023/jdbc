@@ -1,9 +1,6 @@
 package doranco;
 
-import doranco.entity.Author;
-import doranco.entity.Book;
-import doranco.entity.Borrow;
-import doranco.entity.Genre;
+import doranco.entity.*;
 import doranco.model.*;
 
 import java.text.SimpleDateFormat;
@@ -324,9 +321,103 @@ public class ActionData {
             }
             case STUDENT -> {
                 IStudentDao studentDao = new StudentDao();
+                switch (actionType) {
+                    case CREATE -> {
+                        Student student = new Student();
+                        student.setName(getString(sc, "Entrez le nom du nouvel étudiant:", false));
+                        student.setFirstname(getString(sc, "Entrez le prénom du nouvel étudiant", false));
+                        student.setStudentNumber(getString(sc, "Entrez le numéro du nouvel étudiant:", false));
+
+                        try {
+                            int createdId = studentDao.add(student);
+                            System.out.println(dataType.name() + " crée avec succès (id: " + createdId + ").");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case READ -> {
+                        try {
+                            Set<Student> students = studentDao.get();
+                            students.stream().map(Student::toString).forEach(System.out::println);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case UPDATE -> {
+                        Student student = new Student();
+                        student.setId(getInt(sc, "Entrez l'id de l'étudiant à modifier:", 1,
+                                Integer.MAX_VALUE));
+                        student.setName(getString(sc, "Entrez le nouveau nom de l'étudiant:", false));
+                        student.setFirstname(getString(sc, "Entrez le nouveau prénom de l'étudiant:",
+                                false));
+                        student.setStudentNumber(getString(sc, "Entrez le nouveau numéro de l'étudiant:",
+                                false));
+
+                        try {
+                            studentDao.update(student);
+                            System.out.println(dataType.name() + " mis à jour avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case DELETE -> {
+                        Student student = new Student();
+                        student.setId(getInt(sc, "Entrez l'id de l'étudiant à supprimer:", 1,
+                                Integer.MAX_VALUE));
+
+                        try {
+                            studentDao.delete(student);
+                            System.out.println(dataType.name() + " supprimé avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
             }
             case BOOK_GENRE -> {
                 IBookGenreDao bookGenreDao = new BookGenreDao();
+                switch (actionType) {
+                    case CREATE -> {
+                        BookGenre bookGenre = new BookGenre();
+                        bookGenre.setIdBook(getInt(sc, "Entrez l'id du livre à qui appliquer un nouveau genre:",
+                                1, Integer.MAX_VALUE));
+                        bookGenre.setIdGenre(getInt(sc, "Entrez l'id du genre à appliquer au livre", 1,
+                                Integer.MAX_VALUE));
+
+                        try {
+                            int createdId = bookGenreDao.add(bookGenre);
+                            System.out.println(dataType.name() + " crée avec succès (id: " + createdId + ").");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+
+                    }
+                    case READ -> {
+                        try {
+                            Set<BookGenre> bookGenres = bookGenreDao.get();
+                            bookGenres.stream().map(BookGenre::toString).forEach(System.out::println);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case UPDATE -> {
+                        System.out.println("La modification d'un " + dataType.name() + " est impossible.");
+                    }
+                    case DELETE -> {
+                        BookGenre bookGenre = new BookGenre();
+                        bookGenre.setIdBook(getInt(sc, "Entrez l'id du livre pour lequel vous souhaitez supprimer un genre:",
+                                1, Integer.MAX_VALUE));
+                        bookGenre.setIdGenre(getInt(sc, "Entrez l'id du genre que vous souhaitez supprimer pour le livre donné:",
+                                1, Integer.MAX_VALUE));
+
+                        try {
+                            bookGenreDao.delete(bookGenre);
+                            System.out.println(dataType.name() + " supprimé avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
             }
         }
 
