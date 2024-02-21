@@ -8,13 +8,12 @@ import java.util.List;
 
 public class App
 {
-    public static void main( String[] args ) throws SQLException {
-        BookDaoImpl bookDao = new BookDaoImpl();
-        List<Book> books = bookDao.findAll();
-
-        for (Book book: books)
-        {
-            System.out.println(book);
+    public static void main( String[] args ) {
+        try {
+            CommandLine commandLine = new CommandLine();
+            commandLine.start();
+        } catch (SQLException e) {
+            System.err.println("Error database connection");
         }
         Book newBook1=new Book(7,"Experiments with truth",1957,7);
         Book newBook2=new Book(8,"God of small things",1993 ,9);

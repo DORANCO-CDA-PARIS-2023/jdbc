@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICrud <T> {
 
-    public T find(int id);
+    public T find(int id) throws SQLException, NotFoundEntityException;
 
     public List<T> findAll() throws SQLException;
 
