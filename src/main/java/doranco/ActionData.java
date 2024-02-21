@@ -1,6 +1,7 @@
 package doranco;
 
 import doranco.entity.Book;
+import doranco.entity.Genre;
 import doranco.model.*;
 
 import java.util.Scanner;
@@ -132,6 +133,50 @@ public class ActionData {
             }
             case GENRE -> {
                 IGenreDao genreDao = new GenreDao();
+                switch (actionType) {
+                    case CREATE -> {
+                        Genre genre = new Genre();
+                        genre.setName(getString(sc, "Entrez le nom du nouveau genre:", false));
+
+                        try {
+                            int createdId = genreDao.add(genre);
+                            System.out.println(dataType.name() + " crée avec succès (id: " + createdId + ").");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case READ -> {
+                        try {
+                            Set<Genre> genres = genreDao.get();
+                            genres.stream().map(Genre::toString).forEach(System.out::println);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case UPDATE -> {
+                        Genre genre = new Genre();
+                        genre.setId(getInt(sc, "Entrez l'id du " + dataType.name() + " à modifier:", 1,
+                                Integer.MAX_VALUE));
+                        genre.setName(getString(sc, "Entrez le nouveau nom du genre:", false));
+
+                        try {
+                            genreDao.update(genre);
+                            System.out.println(dataType.name() + " mis à jour avec succès.");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case DELETE -> {
+                        Genre genre = new Genre();
+                        genre.setId(getInt(sc, "Entrez l'id du genre à supprimer:", 1, Integer.MAX_VALUE));
+
+                        try {
+                            genreDao.delete(genre);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
             }
             case AUTHOR -> {
                 IAuthorDao authorDao = new AuthorDao();
