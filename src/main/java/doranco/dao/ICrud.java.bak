@@ -1,0 +1,24 @@
+package doranco.dao;
+
+import doranco.exception.NotFoundEntityException;
+
+import java.sql.SQLException;
+import java.util.List;
+
+public interface ICrud <T> {
+
+    public T find(int id) throws SQLException, NotFoundEntityException;
+
+    public List<T> findAll() throws SQLException;
+
+<<<<<<< HEAD
+    public void create(T entity) throws SQLException;
+
+    public void delete(int id) throws SQLException;
+    public void update(String title,int id) throws SQLException;
+=======
+    public void create(T entity) throws SQLException, NotFoundEntityException;
+
+    public void delete(int id) throws SQLException;
+>>>>>>> 87818ab (Add CLI & BookDao update)
+}

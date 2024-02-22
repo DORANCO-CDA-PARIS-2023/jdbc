@@ -28,14 +28,13 @@ public class CommandLine {
             cmd = sc.nextInt();
             if (cmd == 1) {
                 displayBooks();
-            }
-            if(cmd==2){
+            } else if(cmd==2){
                 System.out.print("""
                    title : 
                    > """ );
                  title=sc.nextLine();
                 searchbook(title);
-            }2
+            }
         } while (cmd != 5);
         sc.close();
         System.out.println("Application closed");
